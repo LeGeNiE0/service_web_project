@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Omnifood is an AI-powered food 
+    subscription that will make you eat healthy again, 365 days per year. 
+    It's tailored to your personal tastes and nutritional needs."
+    />
+    <link rel="icon" href="img/favicon.png" />
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Omnifood &mdash; Never cook again!</title>
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <main>
+      <section class="section-cta" id="cta">
+        <div class="container container-form-1">
+          <div class="cta">
+            <div class="cta-text-box">
+              <h2 class="heading-secondry">Get your first meal for free!</h2>
+              <p class="cta-text">
+                Healthy, tasty and hassle-free meals are waiting for you. Start
+                eating well today. You can cancel or pause anytime. And the
+                first meal is on us!
+              </p>
+              <form class="cta-form" name="sign-up" action="" id="cta-form">
+                <div class="alert">Your informations have been saved successfully</div>
+                <input type="hidden" name="form-name" value="sign-up" />
+                <div>
+                  <label for="full-name">Full Name</label>
+                  <input
+                    id="full-name"
+                    type="text"
+                    placeholder="name"
+                    name="full-name"
+                    required
+                  />
+                </div>
+                <div>
+                  <label for="email">Email address</label>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="me@example.com"
+                    name="email"
+                    required
+                  />
+                </div>
+                <div>
+                  <label for="select-where">Where did you hear from us?</label>
+                  <select id="select-where" name="select-where" required>
+                    <option value="">Please choose one option:</option>
+                    <option value="friends">Friends and family</option>
+                    <option value="youtube">YouTube video</option>
+                    <option value="podcast">Podcast</option>
+                    <option value="ad">Facebook ad</option>
+                    <option value="others">Others</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn--form">Sign up now</button>
+              </form>
+            </div>
+            <div
+              class="cta-img-box"
+              role="img"
+              aria-label="Woman enjoying food"
+            ></div>
+          </div>
+        </div>
+
+        <div class="container container-form-1">
+          <div class="cta">
+            <div class="cta-text-box">
+              <h2 class="heading-secondry">WhastApp Contact</h2>
+              <p class="cta-text">
+                Click on the following link <button class="btn btn--form" onclick="sendToWhastapp()">Whastapp Link</button> 
+                to contact us on WhastApp and ask all your questions and we will get back to you shortly!
+              </p>
+            </div>
+            <div
+              class="cta-img-box2"
+              role="img"
+              aria-label="Woman enjoying food"
+            ></div>
+          </div>
+        </div>
+
+        <div class="container container-form-1">
+          <div class="cta">
+            <div class="cta-text-box">
+              <h2 class="heading-secondry">About Weather</h2>
+              <p class="cta-text">
+                Click on the following link <a href="meteo.html">Meteo</a> 
+                to access the weather platform, where you can get all the information you need about the weather!
+              </p>
+            </div>
+            <div
+              class="cta-img-box3"
+              role="img"
+              aria-label="Woman enjoying food"
+            ></div>
+          </div>
+        </div>
+
+        <div class="container container-form-1">
+          <div class="cta">
+            <div class="cta-text-box">
+              <div class="whatsapp-container">
+                <h2 class="heading-secondry">Envoyer un SMS</h2>
+                <form id="smsForm">
+                    <div class="form-group">
+                        <label for="to" class="cta-text">Numéro de destinataire (SMS):</label>
+                        <input type="text" id="to" name="to" placeholder="+257XXXXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="cta-text">Message:</label>
+                        <textarea id="message" name="message" placeholder="Votre message ici..." rows="5" required></textarea>
+                    </div>
+                    <button type="submit">Envoyer</button>
+                </form>
+                <p id="response" class="hidden"></p>
+              </div>
+            </div>
+            <div
+                class="cta-img-box4"
+                role="img"
+                aria-label="Woman enjoying food"
+            ></div>
+          </div>
+        </div>
+
+        <div class="container cta">
+            <div class="cta-text-box">
+              <div class="payment-container">
+               <div class="container"> <h1 class="heading-secondry">Paiement Sécurisé avec Stripe</h1>
+                <p class="cta-text">Effectuez un paiement rapide et sécurisé en un seul clic.</p>
+                <button id="checkout">Procéder au paiement</button>
+              </div>
+            </div>
+            <div
+                class="cta-img-box5"
+                role="img"
+                aria-label="Woman enjoying food"
+            ></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+
+    <script>
+      const firebaseConfig = {
+
+        apiKey: "AIzaSyBleMcSolBnOTT-5-C8Eoq5ihZtjs9U7no",
+      
+        authDomain: "ctaform-c9bea.firebaseapp.com",
+      
+        databaseURL: "https://ctaform-c9bea-default-rtdb.firebaseio.com",
+      
+        projectId: "ctaform-c9bea",
+      
+        storageBucket: "ctaform-c9bea.firebasestorage.app",
+      
+        messagingSenderId: "919246223888",
+      
+        appId: "1:919246223888:web:1e2bf211a833f3db91e895"
+      
+      };
+      
+      // initialize firebase
+      firebase.initializeApp(firebaseConfig);
+      
+      // reference your database
+      var CTAFormDB = firebase.database().ref("CTAFormDB");
+      
+      document.getElementById("cta-form").addEventListener("submit", submitForm);
+      
+      function submitForm(e) {
+        e.preventDefault();
+      
+        var fullname = getElementVal("full-name");
+        var email = getElementVal("email");
+        var selectwhere = getElementVal("select-where");
+      
+        // console.log(fullname, email, selectwhere);
+        saveMessages(fullname, email, selectwhere);
+      
+        // enable the alert
+        document.querySelector(".alert").style.display = "block";
+      
+        // remove the alert
+        setTimeout(() => {
+          document.querySelector(".alert").style.display = "none";
+        }, 3000);
+      
+        // reset the form
+        document.getElementById("cta-form").reset();
+      
+      }
+      
+      const saveMessages = (fullname, email, selectwhere) => {
+        var newCTAForm = CTAFormDB.push();
+      
+        newCTAForm.set({
+          fullname: fullname,
+          email: email,
+          selectwhere: selectwhere
+        });
+      };
+      
+      const getElementVal = (id) => {
+        return document.getElementById(id).value;
+      };
+    </script> <!-- Firebase Script -->
+
+    <script>
+      document.getElementById('smsForm').addEventListener('submit', async function (e) {
+          e.preventDefault();
+      
+          const to = document.getElementById('to').value;
+          const message = document.getElementById('message').value; //GDWASRS7QLGEREKM5Q68FAYQ
+      
+          // Vos informations Twilio
+          const accountSid = 'AC6e26553e33d5c0eed153c1a19b56c0d4'; 
+          const authToken = 'bb02bc4d5d9e1f6d2df4434879d6d130'; 
+          const twilioPhoneNumber = '+12295973079';
+      
+          const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
+      
+          // Création de l'objet FormData
+          const formData = new FormData();
+          formData.append('To', to);
+          formData.append('From', twilioPhoneNumber);
+          formData.append('Body', message);
+      
+          try {
+              const response = await fetch(url, {
+                  method: 'POST',
+                  headers: {
+                      'Authorization': 'Basic ' + btoa(`${accountSid}:${authToken}`),
+                  },
+                  body: formData,
+              });
+      
+              const result = await response.json();
+              if (response.ok) {
+                  document.getElementById('response').classList.remove('hidden');
+                  document.getElementById('response').innerText = "Message envoyé avec succès!";
+              } else {
+                  throw new Error(result.message || "Une erreur s'est produite.");
+              }
+          } catch (error) {
+              document.getElementById('response').classList.remove('hidden');
+              document.getElementById('response').innerText = `Erreur: ${error.message}`;
+          }
+      });
+      
+      
+    </script> <!-- //SMS script -->
+
+    <script>
+      var stripe = Stripe('pk_test_51QQQtVRvEGL7oUeiYjeZsdgMNFl6MStlc9rE86QkO2TfEGNIxFb9w4Via0LB6aLcgL0i4qfOVoGgX7szucEkGsXo00k665kFCV'); 
+
+      document.getElementById("checkout").addEventListener("click", function(){
+          stripe.redirectToCheckout({
+            lineItems: [
+              {
+                price: "price_1QQR3pRvEGL7oUei28rDzv54",
+                quantity: 1
+              },
+            ],
+            mode: "subscription",
+            successUrl: "https://www.google.com/",
+            cancelUrl: "https://www.stripe.com/"
+          }).then(function(result){
+            alert(result.error ? result.error.message : "Redirection réussie !");
+          });
+      });
+  </script> <!-- //STRIPE script -->
+
+  <script>
+    function sendToWhastapp(){
+      let number = "+25765810769"
+    
+      var url = "https://wa.me/" + number;
+    
+      window.open(url, "_blank").focus();
+    }
+  </script> <!-- WhastApp Script-->
+  </body>
+</html>

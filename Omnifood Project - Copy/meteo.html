@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styleMeteo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <main>
+        <form>
+            <input type="text" id="name" placeholder="Enter city" autocomplete="off">
+            <button type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+        <section class="result">
+            <figure class="name">
+                <figcaption>City Name</figcaption> 
+                <img src="https://flagsapi.com/GB/shiny/32.png" alt="Country Flag">
+            </figure>
+            <figure class="temperature">
+                <img src="https://openweathermap.org/img/wn/10d@4x.png" alt="Weather Icon">
+                <figcaption>
+                    <span>0</span>
+                    <sup>o</sup>
+                </figcaption> 
+            </figure>
+            <p class="description">Weather Description</p>
+            <ul>
+                <li>
+                    <span>Clouds</span>
+                    <i class="fa-solid fa-cloud"></i>
+                    <span id="clouds">0</span>%
+                </li>
+                <li>
+                    <span>Humidity</span>
+                    <i class="fa-solid fa-droplet"></i>
+                    <span id="humidity">0</span>%
+                </li>
+                <li>
+                    <span>Pressure</span>
+                    <i class="fa-solid fa-gauge"></i>
+                    <span id="pressure">0</span> hPa
+                </li>
+            </ul>
+        </section>
+    </main>
+    <script>
+        const id = '9505fd1df737e20152fbd78cdb289b6a';
+        const url = 'https://api.openweathermap.org/data/2.5/weather?units=metric&appid=' + id;
+        const city = document.querySelector('.name');
+        const form = document.querySelector("form");
+        const temperature = document.querySelector('.temperature');
+        const description = document.querySelector('.description');
+        const valueSearch = document.getElementById('name');
+        const clouds = document.getElementById('clouds');
+        const humidity = document.getElementById('humidity');
+        const pressure = document.getElementById('pressure');
+        const resultSection = document.querySelector('.result');
+        const main = document.querySelector('main');
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();  
+            if(valueSearch.value !== ''){
+                searchWeather();
+            }
+        });
+
+        const searchWeather = () => {
+            fetch(url + '&q=' + valueSearch.value)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.cod === 200){
+                        city.querySelector('figcaption').innerText = data.name;
+                        city.querySelector('img').src = `https://flagsapi.com/${data.sys.country}/shiny/32.png`;
+                        temperature.querySelector('img').src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@4x.png`;
+                        temperature.querySelector('span').innerText = data.main.temp;
+                        description.innerText = data.weather[0].description;
+
+                        clouds.innerText = data.clouds.all;
+                        humidity.innerText = data.main.humidity;
+                        pressure.innerText = data.main.pressure;
+
+                        resultSection.style.display = 'block'; // Show the result section
+                        main.classList.remove('error');
+                    } else {
+                        main.classList.add('error');
+                        alert("City not found! Please try again.");
+                    }
+                    valueSearch.value = '';
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("An error occurred. Please try again later.");
+                });
+        };
+
+        // Default search
+        const initApp = () => {
+            valueSearch.value = 'Washington';
+            searchWeather();
+        };
+        initApp();
+    </script>
+</body>
+</html>
